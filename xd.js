@@ -1,5 +1,6 @@
 import * as wasm from './pkg/sha_was.js'
 import { Bench } from 'https://esm.sh/tinybench'
+import { Sha256 } from 'https://esm.sh/@aws-crypto/sha256-js'
 
 await wasm.default('./pkg/sha_was_bg.wasm')
 // Usage example
@@ -19,6 +20,11 @@ bench
     // hash using web crypto 
     await crypto.subtle.digest('SHA-256', data)
   })
+  .add('JS 5 bytes', async () => {
+    const hash = new Sha256();
+    hash.update(data);
+    await hash.digest();
+  })
   .add('WASM 65536 bytes', () => {
     wasm.hash_sha256(mediumData)
   })
@@ -26,12 +32,22 @@ bench
     // hash using web crypto 
     await crypto.subtle.digest('SHA-256', mediumData)
   })
+  .add('JS 65536 bytes', async () => {
+    const hash = new Sha256();
+    hash.update(mediumData);
+    await hash.digest();
+  })
   .add('WASM 10MB', () => {
     wasm.hash_sha256(largeData)
   })
   .add('WebCrypto 10MB', async () => {
     // hash using web crypto 
     await crypto.subtle.digest('SHA-256', largeData)
+  })
+  .add('JS 10MB', async () => {
+    const hash = new Sha256();
+    hash.update(largeData);
+    await hash.digest();
   })
 
 await bench.warmup()
