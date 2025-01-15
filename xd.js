@@ -50,7 +50,7 @@ bench
     await hash.digest();
   })
 
-await bench.warmup()
+await bench.warmupTasks()
 await bench.run()
 
 console.table(bench.table())
