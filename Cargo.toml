@@ -7,5 +7,30 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-sha2 = "0.10.6"
-wasm-bindgen = "0.2.83"
+blake3 = "1.6.0"
+sha2 = { version = "0.10.6", features = ["asm", "compress"] }
+wasm-bindgen = "0.2.84"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = [
+  '-O4',
+  '--enable-relaxed-simd',
+  '--enable-simd',
+  '--enable-threads',
+  '--enable-mutable-globals',
+  '--enable-bulk-memory',
+  '--strip',
+]
+
+[package.metadata.wasm-pack.profile.release.wasm-bindgen]
+debug-js-glue = false
+demangle-name-section = true
+dwarf-debug-info = false
+omit-default-module-path = false

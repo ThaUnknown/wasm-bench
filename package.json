@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "build": "wasm-pack build --target web -- --verbose --locked",
+    "start": "vite --config vite.config.js"
+  },
+  "devDependencies": {
+    "vite": "^6.2.0"
+  }
+}

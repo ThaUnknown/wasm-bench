@@ -1,11 +1,10 @@
-use sha2::{Sha256, Digest};
+use blake3;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
+#[target_feature(enable = "simd128")]
 pub fn hash_sha256(data: &[u8]) -> Vec<u8> {
-    let mut hasher = Sha256::new();
-    hasher.update(data);
-    hasher.finalize().to_vec()
+    blake3::hash(data).as_bytes().to_vec()
 }
 
 #[wasm_bindgen]

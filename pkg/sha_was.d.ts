@@ -1,13 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/**
-* @param {Uint8Array} data
-* @returns {Uint8Array}
-*/
 export function hash_sha256(data: Uint8Array): Uint8Array;
-/**
-* @returns {Uint8Array}
-*/
 export function test_hash(): Uint8Array;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -17,8 +10,8 @@ export interface InitOutput {
   readonly hash_sha256: (a: number, b: number, c: number) => void;
   readonly test_hash: (a: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
-  readonly __wbindgen_malloc: (a: number, b: number) => number;
-  readonly __wbindgen_free: (a: number, b: number, c: number) => void;
+  readonly __wbindgen_export_0: (a: number, b: number) => number;
+  readonly __wbindgen_export_1: (a: number, b: number, c: number) => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
