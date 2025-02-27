@@ -59,8 +59,8 @@ for (let size = startSize; size <= endSize; size *= 2) {
 //     await hash.digest()
 //   })
 
-// const res = await bench.run()
-const res = []
+const res = await bench.run()
+// const res = []
 // console.table(bench.table())
 const text = JSON.stringify(res.map(({ name, result }) => {
   const res = { ...result }
