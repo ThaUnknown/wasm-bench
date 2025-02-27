@@ -35,34 +35,17 @@ function getArrayU8FromWasm0(ptr, len) {
  * @param {Uint8Array} data
  * @returns {Uint8Array}
  */
-export function hash_sha256(data) {
+export function sha2(data) {
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
         const ptr0 = passArray8ToWasm0(data, wasm.__wbindgen_export_0);
         const len0 = WASM_VECTOR_LEN;
-        wasm.hash_sha256(retptr, ptr0, len0);
+        wasm.sha2(retptr, ptr0, len0);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
         var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
         var v2 = getArrayU8FromWasm0(r0, r1).slice();
         wasm.__wbindgen_export_1(r0, r1 * 1, 1);
         return v2;
-    } finally {
-        wasm.__wbindgen_add_to_stack_pointer(16);
-    }
-}
-
-/**
- * @returns {Uint8Array}
- */
-export function test_hash() {
-    try {
-        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        wasm.test_hash(retptr);
-        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
-        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
-        var v1 = getArrayU8FromWasm0(r0, r1).slice();
-        wasm.__wbindgen_export_1(r0, r1 * 1, 1);
-        return v1;
     } finally {
         wasm.__wbindgen_add_to_stack_pointer(16);
     }

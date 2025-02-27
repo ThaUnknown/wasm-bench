@@ -1,7 +1,12 @@
 {
   "scripts": {
-    "build": "wasm-pack build --target web -- --verbose --locked",
-    "start": "vite --config vite.config.js"
+    "build": "wasm-pack build --target web --release",
+    "start": "vite --config vite.config.js",
+    "vitebuild": "vite build --config vite.config.js"
+  },
+  "dependencies": {
+    "@aws-crypto/sha256-js": "^5.2.0",
+    "tinybench": "^3.1.1"
   },
   "devDependencies": {
     "vite": "^6.2.0"

@@ -1,58 +1,77 @@
-import init, { hash_sha256, test_hash } from './pkg/sha_was.js'
-import { Bench } from 'https://esm.sh/tinybench'
-import { Sha256 } from 'https://esm.sh/@aws-crypto/sha256-js'
+import * as wasm from './pkg/sha_was.js'
+import { Bench } from 'tinybench'
+import { Sha256 } from '@aws-crypto/sha256-js'
+await wasm.default()
 
-await init()
-// Usage example
+const bench = new Bench({ iterations: 100, name: 'SHA-256' })
+bench.concurrency = null
+bench.threshold = 1
 
-const bench = new Bench({ time: 100 })
+function createData (size) {
+  const data = new Uint8Array(size)
 
-const data = new Uint8Array([104, 101, 108, 108, 111]) // "hello"
-const mediumData = crypto.getRandomValues(new Uint8Array(65536))
-// 100MB data
-const largeData = new Uint8Array(Array.from({ length: 10 * 1024 * 1024 }, () => Math.floor(Math.random() * 256)))
+  const maxChunkSize = 65536
 
-test_hash()
+  for (let offset = 0; offset < size; offset += maxChunkSize) {
+    data.set(crypto.getRandomValues(new Uint8Array(Math.min(maxChunkSize, size - offset))), offset)
+  }
 
-bench
-  .add('WASM 5 bytes', () => {
-    hash_sha256(data)
-  })
-  .add('WebCrypto 5 bytes', async () => {
+  return data
+}
+
+// Starting size: 8 bytes
+const startSize = 8
+// Ending size: 100 MB (100 * 1024 * 1024 bytes)
+const endSize = 128 * 1024 * 1024
+
+for (let size = startSize; size <= endSize; size *= 2) {
+  // Create data of current size
+  const data = createData(size)
+
+  // Log information about the generated data
+  console.log(`Bytes: ${data.length}, First 5 values: [${data.slice(0, 5)}]`)
+  bench
+    .add('WASM ' + data.length, () => {
+      wasm.sha2(data)
+    })
+    .add('WebCrypto ' + data.length, async () => {
     // hash using web crypto
-    await crypto.subtle.digest('SHA-256', data)
-  })
-  .add('JS 5 bytes', async () => {
-    const hash = new Sha256()
-    hash.update(data)
-    await hash.digest()
-  })
-  .add('WASM 65536 bytes', () => {
-    hash_sha256(mediumData)
-  })
-  .add('WebCrypto 65536 bytes', async () => {
-    // hash using web crypto
-    await crypto.subtle.digest('SHA-256', mediumData)
-  })
-  .add('JS 65536 bytes', async () => {
-    const hash = new Sha256()
-    hash.update(mediumData)
-    await hash.digest()
-  })
-  .add('WASM 10MB', () => {
-    hash_sha256(largeData)
-  })
-  .add('WebCrypto 10MB', async () => {
-    // hash using web crypto
-    await crypto.subtle.digest('SHA-256', largeData)
-  })
-  .add('JS 10MB', async () => {
-    const hash = new Sha256()
-    hash.update(largeData)
-    await hash.digest()
-  })
+      await crypto.subtle.digest('SHA-256', data)
+    })
+    .add('JS ' + data.length, async () => {
+      const hash = new Sha256()
+      hash.update(data)
+      await hash.digest()
+    })
+}
 
-await bench.warmupTasks()
-await bench.run()
+// bench
+//   .add('WASM sha2 10MB', () => {
+//     wasm.sha2(createData(endSize / 1000))
+//   })
+//   .add('WebCrypto 10MB', async () => {
+//     // hash using web crypto
+//     await crypto.subtle.digest('SHA-256', createData(endSize / 1000))
+//   })
+//   .add('JS 10MB', async () => {
+//     const hash = new Sha256()
+//     hash.update(createData(endSize / 1000))
+//     await hash.digest()
+//   })
 
-console.table(bench.table())
+// const res = await bench.run()
+const res = []
+// console.table(bench.table())
+const text = JSON.stringify(res.map(({ name, result }) => {
+  const res = { ...result }
+  res.samples = res.samples.length
+  res.latency.samples = res.latency?.samples.length
+  res.throughput.samples = res.throughput?.samples.length
+  return { name, result: res }
+}))
+
+// download as text file
+const a = document.createElement('a')
+a.href = URL.createObjectURL(new Blob([text], { type: 'application/json' }))
+a.download = 'results.json'
+a.click()
