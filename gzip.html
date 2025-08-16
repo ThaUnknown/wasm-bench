@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>GZIP Benchmark</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+
+<body>
+  <div id="status">Initializing GZIP benchmarks...</div>
+
+  <h1>GZIP Compression Benchmark</h1>
+
+  <nav>
+    <a href="sha256.html">SHA-256</a> |
+    <a href="gzip.html">GZIP</a> |
+    <a href="png.html">PNG</a> |
+    <a href="index.html">Home</a>
+  </nav>
+
+  <p>Open developer console to see detailed progress and results.</p>
+
+  <script type="module">
+    const statuss = document.getElementById('status')
+
+    // Override console.log to also update status
+    const originalLog = console.log
+    console.log = function (...args) {
+      originalLog.apply(console, args)
+      const message = args.join(' ')
+      if (statuss) statuss.textContent = message
+    }
+
+    import('./benchmark-gzip.js').catch(err => {
+      console.error('Failed to load benchmark:', err)
+      if (statuss) {
+        statuss.textContent = 'Error loading benchmark - check console'
+      }
+    });
+  </script>
+</body>
+
+</html>

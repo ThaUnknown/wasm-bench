@@ -1,11 +1,14 @@
 {
   "scripts": {
-    "build": "wasm-pack build --target web --release",
+    "build": "powershell -ExecutionPolicy Bypass -File build-all.ps1",
     "start": "vite --config vite.config.js",
     "vitebuild": "vite build --config vite.config.js"
   },
   "dependencies": {
     "@aws-crypto/sha256-js": "^5.2.0",
+    "@types/pngjs": "^6.0.5",
+    "pako": "^2.1.0",
+    "pngjs": "^7.0.0",
     "tinybench": "^3.1.1"
   },
   "devDependencies": {
