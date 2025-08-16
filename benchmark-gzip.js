@@ -55,15 +55,16 @@ for (const size of dataSizes) {
 }
 
 /**
- * @param {Task[]} results 
+ * @param {Task[]} results
+ * @param {string} suite
  */
-function processResults(results) {
+function processResults(results, suite) {
   const processedResults = results.map(({ name, result }) => {
-    if (!result) return { name, suite: 'GZIP', error: 'No result' }
+    if (!result) return { name, suite, error: 'No result' }
     
     return { 
       name, 
-      suite: 'GZIP',
+      suite,
       latency: result.latency?.samples?.length || 0,
       throughput: result.throughput?.samples?.length || 0,
       hz: result.throughput?.mean || 0,
@@ -81,17 +82,17 @@ function processResults(results) {
 
   const downloadLink = document.createElement('a')
   downloadLink.href = URL.createObjectURL(new Blob([resultsText], { type: 'application/json' }))
-  downloadLink.download = `gzip-benchmark-results-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`
+  downloadLink.download = `${suite}-benchmark-results-results-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`
   downloadLink.textContent = 'Download GZIP Results'
   document.body.appendChild(downloadLink)
 }
 
 console.log('Running GZIP benchmarks...')
-processResults(await wasmBench.run())
+processResults(await wasmBench.run(), 'wasm-gzip')
 console.table(wasmBench.table())
-processResults(await compressionStreamBench.run())
+processResults(await compressionStreamBench.run(), 'compression-stream')
 console.table(compressionStreamBench.table())
-processResults(await pakoBench.run())
+processResults(await pakoBench.run(), 'pako')
 console.table(pakoBench.table())
 
 console.log('Benchmarking completed!')
