@@ -57,20 +57,20 @@ for (const size of dataSizes) {
 function processResults(results, suite) {
   const processedResults = results.map(({ name, result }) => {
     if (!result) return { name, suite, error: 'No result' }
+
+    const latency = result.latency?.samples.length || 0
+    const throughput = result.throughput?.samples.length || 0
+    // @ts-ignore
+    delete result.latency?.samples
+    // @ts-ignore
+    delete result.throughput?.samples
     
     return { 
       name, 
       suite,
-      latency: result.latency?.samples?.length || 0,
-      throughput: result.throughput?.samples?.length || 0,
-      hz: result.throughput?.mean || 0,
-      mean: result.latency?.mean || 0,
-      sd: result.latency?.sd || 0,
-      min: result.latency?.min || 0,
-      max: result.latency?.max || 0,
-      p99: result.latency?.p99 || 0,
-      p995: result.latency?.p995 || 0,
-      p75: result.latency?.p75 || 0
+      latency,
+      throughput,
+      result
     }
   })
 
