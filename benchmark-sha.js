@@ -78,7 +78,7 @@ function processResults(results, suite) {
 
   const downloadLink = document.createElement('a')
   downloadLink.href = URL.createObjectURL(new Blob([resultsText], { type: 'application/json' }))
-  downloadLink.download = `${suite}-benchmark-results-results-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`
+  downloadLink.download = `${suite}-benchmark-results-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`
   downloadLink.textContent = 'Download SHA-256 Results'
   document.body.appendChild(downloadLink)
 }
