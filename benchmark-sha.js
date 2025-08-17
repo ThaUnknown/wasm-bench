@@ -60,10 +60,6 @@ function processResults(results, suite) {
 
     const latency = result.latency?.samples.length || 0
     const throughput = result.throughput?.samples.length || 0
-    // @ts-ignore
-    delete result.latency?.samples
-    // @ts-ignore
-    delete result.throughput?.samples
     
     return { 
       name, 
