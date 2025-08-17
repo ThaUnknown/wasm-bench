@@ -4,22 +4,29 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 export default defineConfig({
   base: '/wasm-bench/',
-    plugins: [
-    nodePolyfills({
-      include: ['stream', 'util', 'zlib'],
-      globals: {
-        Buffer: true,
-        global: true,
-        process: true,
-      },
-      // Override the default polyfills for specific modules.
-      overrides: {
-        zlib: './zlib.cjs',
-        process: 'process-fast'
-      }
-    }),
+  plugins: [
+    {
+      ...nodePolyfills({
+        include: ['stream', 'util', 'zlib'],
+        globals: {
+          Buffer: true,
+          global: true,
+          process: true,
+        },
+        // Override the default polyfills for specific modules.
+        overrides: {
+          zlib: './zlib.cjs',
+          process: 'process-fast'
+        }
+      }),
+      enforce: 'post'
+    }
   ],
   build: {
+    commonjsOptions: {
+      transformMixedEsModules: true,
+      include: [/node_modules/]
+    },
     outDir: 'docs',
     target: 'esnext', // browsers can handle the latest ES features
     rollupOptions: {
