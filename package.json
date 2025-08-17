@@ -7,11 +7,15 @@
   "dependencies": {
     "@aws-crypto/sha256-js": "^5.2.0",
     "@types/pngjs": "^6.0.5",
-    "pako": "^2.1.0",
     "pngjs": "^7.0.0",
-    "tinybench": "^3.1.1"
+    "tinybench": "^3.1.1",
+    "util": "^0.12.5"
   },
   "devDependencies": {
-    "vite": "^6.2.0"
+    "pako": "^2.1.0",
+    "process-fast": "^1.0.0",
+    "stream": "^0.0.3",
+    "vite": "^6.2.0",
+    "vite-plugin-node-polyfills": "^0.24.0"
   }
 }

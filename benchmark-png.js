@@ -1,6 +1,6 @@
 import * as wasmPng from './pkg-png/png_wasm.js'
 import { Bench, Task } from 'tinybench'
-import { PNG } from 'pngjs/browser'
+import { PNG } from 'pngjs'
 
 await wasmPng.default()
 
@@ -62,7 +62,7 @@ for (const { width, height } of imageSizes) {
       
       png.data.set(imageData.data)
       
-      return PNG.sync.write(png)
+      return PNG.sync.write(png, { deflateLevel: 1 })
     })
 }
 
