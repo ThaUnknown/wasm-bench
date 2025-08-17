@@ -1,6 +1,6 @@
 import * as wasmPng from './pkg-png/png_wasm.js'
 import { Bench, Task } from 'tinybench'
-import { PNG } from 'pngjs'
+import { PNG } from 'pngjs/browser'
 
 await wasmPng.default()
 
