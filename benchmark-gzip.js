@@ -34,6 +34,19 @@ const pakoBench = new Bench({ name: 'Pako', iterations: 10, time: 10000, warmupI
 pakoBench.concurrency = null
 pakoBench.threshold = 1
 
+
+// Check if SIMD is supported
+console.log('SIMD Support:', wasmGzip.test_simd_support())
+
+// Test SIMD operation
+const testData = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
+const result = wasmGzip.test_simd_operation(testData)
+console.log('Original:', Array.from(testData))
+console.log('SIMD +1: ', Array.from(result))
+
+
+throw 'uwu'
+
 console.log('Setting up GZIP benchmarks...')
 for (const size of dataSizes) {
   const data = createData(size)

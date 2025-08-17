@@ -1,3 +1,6 @@
+# Set WASM SIMD flags for maximum performance
+$env:RUSTFLAGS = "-C target-feature=+simd128,+relaxed-simd,+bulk-memory,+mutable-globals"
+
 # Build SHA-256 WASM
 Write-Host "Building SHA-256 WASM..."
 wasm-pack build --target web --release --out-dir pkg
