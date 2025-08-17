@@ -101,10 +101,10 @@ function processResults(results, suite) {
 
 console.log('Running PNG benchmarks...')
 processResults(await wasmBench.run(), 'wasm-png')
-console.table(wasmBench.table())
+// console.table(wasmBench.table())
 processResults(await canvasBench.run(), 'canvas')
-console.table(canvasBench.table())
+// console.table(canvasBench.table())
 processResults(await pngjsBench.run(), 'pngjs')
-console.table(pngjsBench.table())
+// console.table(pngjsBench.table())
 
 console.log('Benchmarking completed!')

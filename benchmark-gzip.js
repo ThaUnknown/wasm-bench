@@ -90,10 +90,10 @@ function processResults(results, suite) {
 
 console.log('Running GZIP benchmarks...')
 processResults(await wasmBench.run(), 'wasm-gzip')
-console.table(wasmBench.table())
+// console.table(wasmBench.table())
 processResults(await compressionStreamBench.run(), 'compression-stream')
-console.table(compressionStreamBench.table())
+// console.table(compressionStreamBench.table())
 processResults(await pakoBench.run(), 'pako')
-console.table(pakoBench.table())
+// console.table(pakoBench.table())
 
 console.log('Benchmarking completed!')

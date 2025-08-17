@@ -85,10 +85,10 @@ function processResults(results, suite) {
 
 console.log('Running SHA-256 benchmarks...')
 processResults(await wasmBench.run(), 'wasm-sha')
-console.table(wasmBench.table())
+// console.table(wasmBench.table())
 processResults(await webCryptoBench.run(), 'web-crypto')
-console.table(webCryptoBench.table())
+// console.table(webCryptoBench.table())
 processResults(await jsBench.run(), 'js')
-console.table(jsBench.table())
+// console.table(jsBench.table())
 
 console.log('Benchmarking completed!')
