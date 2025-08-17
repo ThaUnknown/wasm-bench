@@ -70,7 +70,7 @@ function processResults(results, suite) {
     }
   })
 
-  const resultsText = JSON.stringify(processedResults, null, 2)
+  const resultsText = JSON.stringify(processedResults)
 
   const downloadLink = document.createElement('a')
   downloadLink.href = URL.createObjectURL(new Blob([resultsText], { type: 'application/json' }))
