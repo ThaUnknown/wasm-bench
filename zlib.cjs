@@ -5,4 +5,4 @@ const def = {
   deflateSync: (...args) => Buffer.from(pako.deflate(...args))
 }
 
-exports = def
+export default def

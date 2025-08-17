@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/benchmark-png-B-wcYGan.js","assets/index-Bh4Xcgru.js","assets/index-CgqXENQe.js","assets/pako.esm-QcQmc0Ou.js"])))=>i.map(i=>d[i]);
+import{_ as n}from"./preload-helper-CWuOuPzm.js";const t=document.getElementById("status"),c=console.log;console.log=function(...o){c.apply(console,o);const e=o.join(" ");t&&(t.textContent=e)};n(()=>import("./benchmark-png-B-wcYGan.js"),__vite__mapDeps([0,1,2,3])).catch(o=>{console.error("Failed to load benchmark:",o),t&&(t.textContent="Error loading benchmark - check console")});
