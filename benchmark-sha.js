@@ -60,6 +60,9 @@ function processResults(results, suite) {
 
     const latency = result.latency?.samples.length || 0
     const throughput = result.throughput?.samples.length || 0
+
+    delete result.latency.samples
+    delete result.throughput.samples
     
     return { 
       name, 
